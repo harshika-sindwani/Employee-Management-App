@@ -1,0 +1,28 @@
+---
+- name: Deploy Employee Management Application
+  hosts: web
+
+  tasks:
+
+    - name: Stop existing container
+      shell: docker stop employee-app
+      ignore_errors: yes
+
+    - name: Remove existing container
+      shell: docker rm employee-app
+      ignore_errors: yes
+
+    - name: Run Employee Management container
+      shell: |
+        docker run -d \
+        -p 5000:5000 \
+        --name employee-app \
+        employee-management-app
+
+    - name: Verify container is running
+      shell: docker ps
+      register: docker_output
+
+    - name: Display running containers
+      debug:
+        var: docker_output.stdout_lines

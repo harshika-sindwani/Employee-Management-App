@@ -16,19 +16,11 @@ pipeline {
             }
         }
 
-        stage('Stop Existing Container') {
-            steps {
-                sh 'docker stop employee-app || true'
-                sh 'docker rm employee-app || true'
-            }
-        }
-
-        stage('Run Docker Container') {
-            steps {
-                sh 'docker run -d -p 5000:5000 --name employee-app employee-management-app'
-            }
-        }
+        stage('Deploy using Ansible') {
+    steps {
+        sh 'ansible-playbook -i ansible/hosts ansible/deploy.yml'
     }
+}
 
     post {
         success {

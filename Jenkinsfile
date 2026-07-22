@@ -17,10 +17,12 @@ pipeline {
         }
 
         stage('Deploy using Ansible') {
-    steps {
-        sh 'ansible-playbook -i ansible/hosts ansible/deploy.yml'
-    }
-}
+            steps {
+                sh 'ansible-playbook -i ansible/hosts ansible/deploy.yml'
+            }
+        }
+
+    }   // <-- This brace was missing
 
     post {
         success {
